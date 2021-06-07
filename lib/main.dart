@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'Screens/SignInScreen.dart';
 
 void main() {

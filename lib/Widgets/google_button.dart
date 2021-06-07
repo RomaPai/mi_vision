@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mi_vision/Screens/user_ifo.dart';
+import 'package:mi_vision/Screens/HomePage.dart';
 
-import 'Authentication.dart';
+import '../Utils/Authentication.dart';
 
 class GoogleSignInButton extends StatefulWidget {
   @override
@@ -43,7 +43,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 if (user != null) {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => UserInfoScreen(
+                      builder: (context) => HomePage(
                         user: user,
                       ),
                     ),

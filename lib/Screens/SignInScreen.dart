@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mi_vision/Utils/Authentication.dart';
 import 'package:mi_vision/Utils/custom%20colors.dart';
-import 'package:mi_vision/Utils/google_button.dart';
+import 'package:mi_vision/Widgets/google_button.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

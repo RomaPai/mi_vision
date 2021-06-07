@@ -6,28 +6,36 @@ import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mi_vision/Utils/Authentication.dart';
 import 'package:mi_vision/Utils/ClipWave.dart';
+import 'package:mi_vision/Utils/Database.dart';
 import 'package:mi_vision/Utils/custom%20colors.dart';
-import 'package:mi_vision/Utils/db%20utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'SignInScreen.dart';
 import 'TabItemBuilder.dart';
 
-class UserInfoScreen extends StatefulWidget {
-  const UserInfoScreen({Key? key, required User user})
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required User user})
       : _user = user,
         super(key: key);
 
   final User _user;
 
   @override
-  _UserInfoScreenState createState() => _UserInfoScreenState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _UserInfoScreenState extends State<UserInfoScreen>
+class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late User _user;
   bool _isSigningOut = false;
+  File? _image;
+  String imagePath = "";
+  String _text = '';
+  ImagePicker picker = ImagePicker();
+  bool isImageShown = false;
+  AnimationController? _controllerAnimation;
+  double? _scale;
+  late TabController _controllerTab;
 
   Route _routeToSignInScreen() {
     return PageRouteBuilder(
@@ -36,7 +44,6 @@ class _UserInfoScreenState extends State<UserInfoScreen>
         var begin = Offset(-1.0, 0.0);
         var end = Offset.zero;
         var curve = Curves.ease;
-
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
@@ -54,14 +61,6 @@ class _UserInfoScreenState extends State<UserInfoScreen>
     _controllerTab = TabController(length: 2, vsync: this);
     super.initState();
   }
-
-  File? _image;
-  String imagePath = "";
-  String _text = '';
-  ImagePicker picker = ImagePicker();
-  bool isImageShown = false;
-  AnimationController? _controllerAnimation;
-  double? _scale;
 
   void _onTapDown(TapDownDetails details) {
     _controllerAnimation!.forward();
@@ -112,8 +111,6 @@ class _UserInfoScreenState extends State<UserInfoScreen>
       });
     });
   }
-
-  late TabController _controllerTab;
 
   @override
   Widget build(BuildContext context) {
@@ -197,14 +194,6 @@ class _UserInfoScreenState extends State<UserInfoScreen>
                           fontWeight: FontWeight.w800,
                           letterSpacing: 1.4),
                     ),
-                    // Text(
-                    //   'lorem ipsum lorem ipsum',
-                    //   style: GoogleFonts.nunitoSans(
-                    //     fontSize: 20,
-                    //     color: Color(0xff231942),
-                    //     fontWeight: FontWeight.w500,
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -214,7 +203,6 @@ class _UserInfoScreenState extends State<UserInfoScreen>
                 clipper: ClipWave(),
                 child: Container(
                     color: Color(0xffffffff),
-                    // color: Color(0xffdbfcff),
                     child: Container(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.265),
@@ -253,7 +241,7 @@ class _UserInfoScreenState extends State<UserInfoScreen>
                                 TabItemCardBuilder(
                                   userId: _user.uid,
                                 ),
-                                tabReadImage(),
+                                tabRead(),
                               ],
                             ),
                           )
@@ -286,7 +274,7 @@ class _UserInfoScreenState extends State<UserInfoScreen>
     );
   }
 
-  Widget tabReadImage() {
+  Widget tabRead() {
     return Container(
       padding: const EdgeInsets.only(left: 24, right: 16, top: 18),
       margin: EdgeInsets.only(bottom: 22),
